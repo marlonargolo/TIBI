@@ -1,0 +1,26 @@
+<h1>Ordens de Serviço</h1>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Cliente</th>
+        <th>Descrição</th>
+        <th>Status</th>
+        <th>Ações</th>
+    </tr>
+    {% for ordem in ordens %}
+    <tr>
+        <td>{{ ordem.id }}</td>
+        <td>{{ ordem.cliente.username }}</td>
+        <td>{{ ordem.descricao }}</td>
+        <td>{{ ordem.get_status_display }}</td>
+        <td>
+            {% if ordem.status == 'pendente' %}
+                <a href="{% url 'aceitar_ordem' ordem.id %}">Aceitar</a>
+            {% endif %}
+            {% if ordem.status == 'aceita' %}
+                <a href="{% url 'finalizar_ordem' ordem.id %}">Finalizar</a>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>

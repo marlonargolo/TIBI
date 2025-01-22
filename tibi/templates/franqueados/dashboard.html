@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Dashboard do Franqueado</h2>
+
+<h3>Solicitações de Orçamento</h3>
+<ul>
+    {% for orcamento in orcamentos %}
+    <li>
+        {{ orcamento.descricao }} - {{ orcamento.cliente.username }}
+        <a href="{% url 'franqueados:gerar_ordem' orcamento.id %}">Gerar Ordem</a>
+    </li>
+    {% endfor %}
+</ul>
+
+<h3>Reclamações Pendentes</h3>
+<ul>
+    {% for reclamacao in reclamacoes %}
+    <li>
+        {{ reclamacao.descricao }} - Ordem {{ reclamacao.ordem_servico.id }}
+        <a href="{% url 'franqueados:resolver_reclamacao' reclamacao.id %}">Resolver</a>
+    </li>
+    {% endfor %}
+</ul>
+
+<h3>Prestadores Pendentes de Aprovação</h3>
+<ul>
+    {% for prestador in prestadores_pendentes %}
+    <li>
+        {{ prestador.prestador.username }}
+        <a href="{% url 'franqueados:aprovar_prestador' prestador.id %}">Aprovar</a>
+    </li>
+    {% endfor %}
+</ul>
+
+<h3>Gráficos</h3>
+<canvas id="grafico-ordens"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+fetch("{% url 'franqueados:grafico_ordens' %}")
+    .then(response => response.json())
+    .then(data => {
+        const ctx = document.getElementById('grafico-ordens').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: data.labels,
+                datasets: [{
+                    label: 'Valores das Ordens',
+                    data: data.values,
+                    borderColor: 'blue',
+                    fill: false
+                }]
+            }
+        });
+    });
+</script>
+{% endblock %}

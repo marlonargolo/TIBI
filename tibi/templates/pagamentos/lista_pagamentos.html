@@ -1,0 +1,31 @@
+{% block content %}
+<h2>Pagamentos Pendentes</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Ordem</th>
+            <th>Cliente</th>
+            <th>Valor Total</th>
+            <th>Prestador</th>
+            <th>Franqueado</th>
+            <th>Status</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for pagamento in pagamentos %}
+        <tr>
+            <td>{{ pagamento.id }}</td>
+            <td>{{ pagamento.solicitacao.cliente.username }}</td>
+            <td>{{ pagamento.valor_total }}</td>
+            <td>{{ pagamento.valor_prestador }}</td>
+            <td>{{ pagamento.valor_franqueado }}</td>
+            <td>{{ pagamento.status }}</td>
+            <td>
+                <a href="{% url 'pagamentos:marcar_como_pago' pagamento.id %}">Marcar como Pago</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
