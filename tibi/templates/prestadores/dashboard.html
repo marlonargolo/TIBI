@@ -1,0 +1,183 @@
+<!-- templates/prestador/dashboard.html -->
+{% extends "base_prestadores.html" %}
+{% block content %}
+<style>
+    /* Geral */
+body {
+    font-family: Arial, sans-serif;
+    margin-top: 50px;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+h2 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    color: #444;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 15px;
+    padding: 15px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+a {
+    text-decoration: none;
+    color: #0066cc;
+    font-weight: bold;
+}
+
+a:hover {
+    color: #004999;
+}
+
+section {
+    margin-bottom: 30px;
+}
+
+/* Links de ação */
+a {
+    display: inline-block;
+    margin-right: 10px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: #0066cc;
+    color: #fff;
+}
+
+a:hover {
+    background-color: #004999;
+}
+
+/* Imagem de reclamação */
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    li {
+        padding: 12px;
+    }
+
+    a {
+        padding: 4px 8px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        margin-top: 30px;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    h2 {
+        font-size: 1.3rem;
+    }
+
+    li {
+        padding: 10px;
+    }
+
+    a {
+        padding: 3px 6px;
+    }
+}
+
+</style>
+    <!-- Menu de navegação -->
+   
+    <h1>Painel do Prestador de Serviço</h1>
+
+    <!-- Serviços para adicionar à agenda -->
+    <section>
+        <h2>Serviços Disponíveis</h2>
+        <ul>
+            {% for servico in servicos %}
+                <li>
+                    <a href="{% url 'prestador:add_agenda' servico.id %}">
+                        {{ servico.nome }} - {{ servico.descricao }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <!-- Ordens de serviço -->
+    <section>
+        <h2>Ordens de Serviço</h2>
+        <ul>
+            {% for ordem in ordens %}
+                <li>
+                    <strong>Ordem #{{ ordem.numero }}</strong><br>
+                    Descrição: {{ ordem.descricao }}<br>
+                    Data: {{ ordem.data }}<br>
+                    Valor: {{ ordem.valor }}<br>
+                    <a href="{% url 'prestador:ver_ordem' ordem.id %}">Ver detalhes</a>
+                    {% if ordem.status == "pendente" %}
+                        <a href="{% url 'prestador:aceitar_ordem' ordem.id %}">Aceitar</a>
+                        <a href="{% url 'prestador:recusar_ordem' ordem.id %}">Recusar</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <!-- Reclamações -->
+    <section>
+        <h2>Reclamações</h2>
+        <ul>
+            {% for reclamacao in reclamacoes %}
+                <li>
+                    <strong>Ordem #{{ reclamacao.ordem.numero }}</strong><br>
+                    Descrição: {{ reclamacao.descricao }}<br>
+                    Foto: <img src="{{ reclamacao.foto.url }}" alt="Foto da reclamação"><br>
+                    <a href="{% url 'prestador:reclamar_ordem' reclamacao.id %}">Resolver reclamação</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <!-- Notificações -->
+    <section>
+        <h2>Notificações</h2>
+        <ul>
+            {% for not in notificacoes %}
+                <li>{{ not.mensagem }} - {{ not.data }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,148 @@
+{% extends "account/base_entrance.html" %}
+{% load i18n %}
+{% load allauth account %}
+{% block head_title %}
+    {% trans "Sign In" %}
+{% endblock head_title %}
+
+{% block extra_head %}
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #000;
+            padding: 10px;
+        }
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+            padding: 2rem;
+            background-color: #222;
+            box-shadow: 0px 0px 10px rgba(255, 215, 0, 0.5);
+            border-radius: 8px;
+            text-align: center;
+            color: #FFD700;
+        }
+        .login-header {
+            background-color: #FFD700;
+            color: #000;
+            padding: 1rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            margin-top: -2rem;
+            margin-left: -2rem;
+            margin-right: -2rem;
+            margin-bottom: 1rem;
+        }
+        .login-form input[type="text"],
+        .login-form input[type="password"] {
+            width: 100%;
+            padding: 0.8rem;
+            margin: 0.5rem 0;
+            border: 1px solid #FFD700;
+            background-color: #333;
+            color: #FFD700;
+            border-radius: 4px;
+        }
+        .login-form button {
+            width: 100%;
+            padding: 0.8rem;
+            color: #000;
+            background-color: #FFD700;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+        .login-form button:hover {
+            background-color: #FFC107;
+        }
+        .login-footer {
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+        .remember-me {
+            display: flex;
+            align-items: center;
+        }
+        .remember-me input {
+            margin-right: 0.5rem;
+        }
+        .forgot-password {
+            text-decoration: none;
+            color: #FFD700;
+            margin-top: 5px;
+        }
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 1.5rem;
+                width: 90%;
+            }
+            .login-header {
+                font-size: 1rem;
+                padding: 0.8rem;
+            }
+            .login-form input[type="text"],
+            .login-form input[type="password"] {
+                padding: 0.6rem;
+            }
+            .login-form button {
+                padding: 0.6rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+{% endblock extra_head %}
+
+{% block content %}
+<div class="login-container">
+    <div class="login-header">{% trans "Você já é nosso cliente" %}</div>
+    {% if not SOCIALACCOUNT_ONLY %}
+        {% url 'account_login' as login_url %}
+        {% element form form=form method="post" action=login_url tags="entrance,login" class="login-form" %}
+            {% slot body %}
+                {% csrf_token %}
+                {% element fields form=form unlabeled=True %}
+                {% endelement %}
+                {{ redirect_field }}
+            {% endslot %}
+            {% slot actions %}
+                {% element button type="submit" tags="prominent,login" %}
+                    {% trans "Entrar" %}
+                {% endelement %}
+            {% endslot %}
+        {% endelement %}
+        <div class="login-footer">
+            <label class="remember-me">
+                <input type="checkbox" name="remember"> {% trans "Lembra-me" %}
+            </label>
+            <a href="{% url 'account_reset_password' %}" class="forgot-password">{% trans "Esqueci minha senha" %}</a>
+            <a href="{% url 'account_signup' %}" class="forgot-password">{% trans "Fazer cadastro" %}</a>
+        </div>
+    {% endif %}
+    {% if SOCIALACCOUNT_ENABLED %}
+        {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
+    {% endif %}
+</div>
+{% endblock content %}
+
+{% block extra_body %}
+    {{ block.super }}
+    {% if PASSKEY_LOGIN_ENABLED %}
+        {% include "mfa/webauthn/snippets/login_script.html" with button_id="passkey_login" %}
+    {% endif %}
+{% endblock %}

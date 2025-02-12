@@ -1,0 +1,13 @@
+<form method="post">
+    {% csrf_token %}
+    <label for="user_type">Escolha seu tipo de usuário:</label>
+    <select name="user_type" id="user_type">
+        <option value="cliente">Cliente</option>
+        <option value="prestador">Prestador</option>
+    </select>
+    <button type="submit">Salvar</button>
+</form>
+
+{% if error %}
+    <p>{{ error }}</p>
+{% endif %}

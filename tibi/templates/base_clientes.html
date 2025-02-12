@@ -1,0 +1,186 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Painel do Cliente - Faz Tudo{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #d4af37;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: #e0bc00;
+            padding: 15px 20px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .logo {
+            min-width: 10%;
+            height: 5vh;
+            border-radius: 10px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .user-menu {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .user-icon {
+            font-size: 1em;
+            background: white;
+            color: #333;
+            padding: 6px;
+            border-radius: 50%;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background: white;
+            color: black;
+            list-style: none;
+            padding: 10px;
+            display: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown-menu li {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .dropdown-menu li:hover {
+            background: #ddd;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background: #1a1a1a;
+            position: fixed;
+            left: -250px;
+            top: 0;
+            transition: left 0.3s ease-in-out;
+            padding-top: 60px;
+            z-index: 1050;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .sidebar a {
+            padding: 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #d4af37;
+            display: block;
+            transition: background 0.2s;
+        }
+
+        .sidebar a:hover {
+            background: #d4af37;
+            color: #000;
+        }
+
+        .menu-btn {
+            position: fixed;
+            left: 10px;
+            top: 10px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #d4af37;
+            z-index: 1100;
+        }
+
+        .content {
+            margin-left: 0;
+            margin-top: 100px;
+            padding: 20px;
+            transition: margin-left 0.3s ease-in-out;
+        }
+
+        .sidebar-open .content {
+            margin-left: 250px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: #333;
+            color: white;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo" style="background-image: url('{% static "images/logo.jpeg" %}');"></div>
+    
+        <div class="user-menu">
+            <div class="user-icon" onclick="toggleMenu()">👤</div>
+            <ul class="dropdown-menu" id="userDropdown">
+                <!-- Links no menu de navegação -->
+                <li><a href="{% url 'painel_cliente' %}">Painel do Cliente</a></li>
+                <li><a href="{% url 'minhas_solicitacoes' %}">Minhas Solicitações</a></li>
+                <li><a href="{% url 'criar_solicitacao' %}">Solicitar Serviço</a></li>
+                <li><a href="{% url 'registrar_reclamacao' solicitacao_id=1 %}">Registrar Reclamação</a></li>
+                <!-- Outros links podem ser adicionados aqui -->
+            </ul>
+        </div>
+    </div>
+    
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById("userDropdown");
+            menu.style.display = menu.style.display === "block" ? "none" : "block";
+        }
+    
+        document.addEventListener("click", function(event) {
+            const menu = document.getElementById("userDropdown");
+            const userIcon = document.querySelector(".user-icon");
+    
+            if (!userIcon.contains(event.target) && !menu.contains(event.target)) {
+                menu.style.display = "none";
+            }
+        });
+    </script>
+
+    <div class="menu-btn" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <main class="content">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="footer">
+        &copy; 2025 Faz Tudo - Todos os direitos reservados.
+    </footer>
+
+    <script>
+        // Código para a sidebar e outras funcionalidades
+    </script>
+</body>
+</html>

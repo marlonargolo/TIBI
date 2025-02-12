@@ -1,0 +1,15 @@
+<!-- cadastro_usuario.html -->
+<form method="POST">
+    {% csrf_token %}
+    <label for="email">E-mail:</label>
+    <input type="email" id="email" name="email" required><br>
+
+    <label for="user_type">Tipo de usuário:</label>
+    <select name="user_type" id="user_type">
+        <option value="cliente">Cliente</option>
+        <option value="prestador">Prestador de Serviço</option>
+        <option value="ambos">Ambos</option>
+    </select><br>
+
+    <button type="submit">Cadastrar</button>
+</form>

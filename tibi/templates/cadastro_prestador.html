@@ -1,0 +1,128 @@
+{% extends "base_prestadores.html" %}
+{% block content %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #FFD700;
+            text-align: center;
+            top: 50px;
+            margin: 0;
+            padding: 0;
+            position: relative;  /* Adicionado para garantir que o conteúdo do body fique acima de outros elementos */
+        }
+
+        h2 {
+            margin-top: 20px;
+        }
+
+        form {
+            background-color: #1E1E1E;
+            padding: 20px;
+            border-radius: 10px;
+            width: 50%;
+            margin: 20px auto;
+            box-shadow: 0px 0px 10px rgba(255, 215, 0, 0.5);
+            z-index: 10; /* Adicionado z-index */
+            position: relative; /* Para garantir que o form não fique atrás de outros elementos */
+        }
+
+        input, select {
+            width: 90%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #FFD700;
+            border-radius: 5px;
+            background-color: #2A2A2A;
+            color: #FFD700;
+        }
+
+        label {
+            display: block;
+            margin: 5px 0;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+
+        input[type="submit"] {
+            background-color: #FFD700;
+            color: #121212;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #FFC107;
+        }
+    </style>
+    
+    <h2>Quero ser um prestador do Faz Tudo</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <label>Nome:</label>
+        <input type="text" name="nome" required>
+        
+        <label>E-Mail:</label>
+        <input type="email" name="email" required>
+        
+        <label>Telefone:</label>
+        <input type="text" name="telefone" required>
+        
+        <label>CPF ou CNPJ:</label>
+        <input type="text" name="cpf_cnpj" required>
+        
+        <label>Razão Social:</label>
+        <input type="text" name="razao_social">
+        
+        <label>Inscrição Estadual (IE):</label>
+        <input type="text" name="ie">
+        
+        <label>Idade:</label>
+        <input type="number" name="idade" required>
+        
+        <label>Estado:</label>
+        <input type="text" name="estado" required>
+        
+        <label>Cidade:</label>
+        <input type="text" name="cidade" required>
+        
+        <label>Bairro:</label>
+        <input type="text" name="bairro" required>
+        
+        <label>Rua:</label>
+        <input type="text" name="rua" required>
+        
+        <label>Número:</label>
+        <input type="text" name="num" required>
+        
+        <label>Complemento:</label>
+        <input type="text" name="complemento">
+        
+        <h3>Área de Serviço</h3>
+        <label><input type="checkbox" name="area_servico" value="Eletricista"> Eletricista</label>
+        <label><input type="checkbox" name="area_servico" value="Pedreiro"> Pedreiro</label>
+        <label><input type="checkbox" name="area_servico" value="Pintor"> Pintor</label>
+
+        <label>Experiência (anos):</label>
+        <input type="number" name="experiencia" required>
+        
+        <label>Disponibilidade:</label>
+        <select name="disponibilidade" required>
+            <option value="Integral">Integral</option>
+            <option value="Parcial">Parcial</option>
+            <option value="Finais de Semana">Finais de Semana</option>
+        </select>
+        
+        <label>Observações:</label>
+        <textarea name="observacoes" rows="4" style="width: 90%; background-color: #2A2A2A; color: #FFD700; border: 1px solid #FFD700; border-radius: 5px;"></textarea>
+        
+        <input type="submit" value="Enviar Cadastro">
+    </form>
+
+{% endblock %}

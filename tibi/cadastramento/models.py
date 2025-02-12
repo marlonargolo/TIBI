@@ -1,8 +1,19 @@
 from django.db import models
-
-# Create your models here.
-from django.db import models
 from django.contrib.auth.models import User
+
+
+class UserProfile(models.Model):
+    USER_TYPES = (
+        ('cliente', 'Cliente'),
+        ('prestador', 'Prestador'),
+        ('ambos', 'Ambos'),
+    )
+    
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    user_type = models.CharField(max_length=20, choices=USER_TYPES, default='cliente')
+
+    def __str__(self):
+        return f"{self.user.username} - {self.user_type}"
 
 # Estados brasileiros
 ESTADOS_CHOICES = [
@@ -108,9 +119,9 @@ class Prestador(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='colaborador')
     nome = models.CharField(max_length=200)
     email = models.ManyToManyField(Email)
-    idade = models.IntegerField()
+    idade = models.IntegerField(default=18, null=True, blank=True)
     telefone = models.CharField(max_length=20)
-    cpf = models.OneToOneField(Cpf, on_delete=models.CASCADE)
+    cpf = models.OneToOneField(Cpf, on_delete=models.CASCADE, null=True, blank=True)
     cnpj = models.OneToOneField(Cnpj, on_delete=models.CASCADE, null=True, blank=True)
     razao_social = models.CharField(max_length=80, null=True, blank=True)
     ie = models.CharField(max_length=50, null=True, blank=True)

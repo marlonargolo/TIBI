@@ -1,0 +1,73 @@
+<!-- Template principal para cliente -->
+<!-- servicos/templates/servicos/painel_cliente.html -->
+{% extends "base_clientes.html" %}
+{% block content %}
+    <style>
+        body {  font-family: Arial, sans-serif; background-color: #000; color: #FFD700; margin: 0; padding: 0; text-align: center; }
+        .container { margin-top: 150px; max-width: 800px; margin: auto; padding: 20px; background: #222; border-radius: 8px; box-shadow: 0px 0px 10px rgba(255, 215, 0, 0.5); }
+        .button { display: block; background-color: #FFD700; color: #000; padding: 10px; margin: 10px 0; border-radius: 5px; text-decoration: none; font-weight: bold; }
+        .button:hover { background-color: #FFC107; }
+        .service-list { margin-top: 20px; text-align: left; }
+        .service-item { background: #333; padding: 10px; margin-bottom: 10px; border-radius: 5px; }
+    </style>
+    <div class="container">
+        <h1>Painel do Cliente</h1>
+        <!-- Link para contato via WhatsApp -->
+        <a href="whatsapp://send?phone={{ contato_whatsapp }}" class="button">Entre em contato conosco via WhatsApp</a>
+        
+        <!-- Botões para navegação -->
+        <a href="#servicos" class="button">Escolha o serviço desejado</a>
+        <a href="{% url 'minhas_solicitacoes' %}" class="button">Minhas solicitações de serviços</a>
+        
+        <!-- Lista de serviços disponíveis -->
+        <div id="servicos" class="service-list">
+            <h2>Serviços Disponíveis</h2>
+            {% for servico in servicos %}
+            <div class="service-item">
+                <p><strong>{{ servico.nome }}</strong> - {{ servico.descricao }}</p>
+                <!-- Se o serviço permitir solicitação direta ou orçamento -->
+                {% if servico.permite_orcamento %}
+                    <a href="{% url 'solicitar_orcamento' servico.id %}" class="button">Desejo um orçamento</a>
+                {% else %}
+                    <a href="{% url 'criar_solicitacao' %}?servico={{ servico.id }}" class="button">Solicitar</a>
+                {% endif %}
+            </div>
+            {% empty %}
+            <p>Nenhum serviço disponível no momento.</p>
+            {% endfor %}
+        </div>
+        
+        <!-- Lista de solicitações do cliente -->
+        <div id="solicitacoes" class="service-list">
+            <h2>Minhas Solicitações</h2>
+            {% for sol in solicitacoes %}
+            <div class="service-item">
+                <p><strong>Ordem Nº{{ sol.id }}</strong> - {{ sol.servico.nome }}</p>
+                <p>Descrição: {{ sol.descricao }}</p>
+                <p>Data escolhida: {{ sol.data_solicitada|date:"d/m/Y" }}</p>
+                {% if sol.valor %}<p>Valor: R$ {{ sol.valor }}</p>{% endif %}
+                <p>Status: {{ sol.get_status_display }}</p>
+                
+                <!-- Exemplo: Se não houver profissional atribuído, exibir botão para reescolher data -->
+                {% if not sol.profissional %}
+                    <a href="{% url 'alterar_data_solicitacao' sol.id %}" class="button">Escolher nova data</a>
+                {% endif %}
+                
+                <!-- Botão para aprovar serviço, se o serviço foi realizado -->
+                {% if sol.status == 'finalizado' %}
+                    <a href="{% url 'aprovar_servico' sol.id %}" class="button" 
+                       onclick="return confirm('Você deverá estar com as matérias em mãos para execução do serviço. Caso contrário, haverá cobrança de deslocamento do prestador. Confirma?');">
+                        Aprovar Serviço
+                    </a>
+                {% endif %}
+                
+                <!-- Botão para registrar reclamação -->
+                <a href="{% url 'registrar_reclamacao' sol.id %}" class="button">Reclame aqui</a>
+            </div>
+            {% empty %}
+            <p>Você ainda não tem solicitações.</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+

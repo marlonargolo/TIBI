@@ -1,3 +1,56 @@
+
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #121212;
+        color: #FFD700;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+    
+    form {
+        background: #1E1E1E;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        width: 400px;
+    }
+    
+    label {
+        display: block;
+        margin-top: 10px;
+        font-weight: bold;
+    }
+    
+    select, textarea, input {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        background: #2C2C2C;
+        border: 1px solid #FFD700;
+        color: #FFD700;
+        border-radius: 5px;
+    }
+    
+    button {
+        background: #FFD700;
+        color: #121212;
+        border: none;
+        padding: 10px;
+        width: 100%;
+        margin-top: 15px;
+        cursor: pointer;
+        border-radius: 5px;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+    
+    button:hover {
+        background: #FFC107;
+    }
+</style>
 <form method="post">
     {% csrf_token %}
     <label for="servico">Escolha o serviço:</label>

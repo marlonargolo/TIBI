@@ -24,4 +24,5 @@ urlpatterns = [
     path('prestadores/', include('prestadores.urls')),
     path('pagamentos/', include('pagamentos.urls')),
     path('franqueados/', include('franqueados.urls')),
+    path("", include('cadastramento.urls')),
 ]

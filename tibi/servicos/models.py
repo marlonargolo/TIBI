@@ -1,14 +1,17 @@
 from django.db import models
 from django.contrib.auth.models import User
+from prestadores.models import Prestador
+
 
 class Servico(models.Model):
-    nome = models.CharField(max_length=100)
+    nome = models.CharField(max_length=100, unique=True)
     descricao = models.TextField()
-    valor_base = models.DecimalField(max_digits=10, decimal_places=2)  # Valor padrão do serviço
-    prazo_execucao = models.IntegerField(help_text="Prazo em dias")  # Tempo médio de execução
+    valor_base = models.DecimalField(max_digits=10, decimal_places=2)
+    prazo_execucao = models.IntegerField(help_text="Prazo em dias")
 
     def __str__(self):
         return self.nome
+
 
 
 class SolicitacaoServico(models.Model):
@@ -39,6 +42,7 @@ class SolicitacaoServico(models.Model):
 
 
 class Reclamação(models.Model):
+    prestador = models.ForeignKey(Prestador, on_delete=models.CASCADE, null=True, blank=True)
     solicitacao = models.ForeignKey(SolicitacaoServico, on_delete=models.CASCADE, related_name='reclamacoes')
     descricao = models.TextField()
     foto = models.ImageField(upload_to='reclamacoes/', null=True, blank=True)

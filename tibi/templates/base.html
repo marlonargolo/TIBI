@@ -1,0 +1,120 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Faz Tudo{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: #333;
+            padding: 15px 20px;
+            color: white;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #e0bc00;
+            padding: 15px 20px;
+            color: white;
+            z-index: 1000; /* Mantém o menu sempre visível */
+        }
+        .logo {
+            min-width: 15%;
+            height: 8vh;
+            border-radius: 10px;
+            background-size: cover;
+            background-position: center;
+        }
+        .user-menu {
+            position: relative;
+            cursor: pointer;
+        }
+        .user-icon {
+            font-size: 1.5em;
+            background: white;
+            color: #333;
+            padding: 10px;
+            border-radius: 50%;
+        }
+        .dropdown-menu {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background: white;
+            color: black;
+            list-style: none;
+            padding: 10px;
+            display: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .dropdown-menu li {
+            padding: 10px;
+            cursor: pointer;
+        }
+        .dropdown-menu li:hover {
+            background: #ddd;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: #333;
+            color: white;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo" style="background-image: url('{% static "images/logo.jpeg" %}');"></div>
+        <div class="user-menu">
+            <div class="user-icon" onclick="toggleMenu()">👤</div>
+            <ul class="dropdown-menu" id="userDropdown">
+                <li><a href="#">Login Franqueado</a></li>
+                <li><a href="#">Reclamações</a></li>
+                <li><a href="#">Quem Somos</a></li>
+                <li><a href="#">Contato</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        {% block content %}
+        
+        {% endblock %}
+    </main>
+
+    <footer class="footer">
+        &copy; 2025 Faz Tudo - Todos os direitos reservados.
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById("userDropdown");
+            menu.style.display = menu.style.display === "block" ? "none" : "block";
+        }
+
+        document.addEventListener("click", function(event) {
+            const menu = document.getElementById("userDropdown");
+            const userIcon = document.querySelector(".user-icon");
+
+            if (!userIcon.contains(event.target) && !menu.contains(event.target)) {
+                menu.style.display = "none";
+            }
+        });
+    </script>
+</body>
+</html>

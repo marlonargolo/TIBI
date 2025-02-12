@@ -1,3 +1,108 @@
+{% extends "base_prestadores.html" %}
+{% block content %}
+<style>
+    /* Estilos gerais */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        top: 50px;
+    }
+    
+    h1 {
+        color: #333;
+        text-align: center;
+        margin-top: 50px;
+    }
+    
+    /* Tabela */
+    table {
+        width: 100%;
+        margin: 20px auto;
+        border-collapse: collapse;
+        background-color: #fff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    
+    th {
+        background-color: #333;
+        color: #fff;
+    }
+    
+    td {
+        color: #555;
+    }
+    
+    /* Links de ações */
+    a {
+        text-decoration: none;
+        color: #007bff;
+        font-weight: bold;
+    }
+    
+    a:hover {
+        color: #0056b3;
+    }
+    
+    /* Estilos para dispositivos móveis */
+    @media (max-width: 768px) {
+        table {
+            width: 100%;
+            font-size: 14px;
+        }
+    
+        th, td {
+            padding: 8px;
+        }
+    
+        h1 {
+            font-size: 24px;
+        }
+    
+        td {
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+        }
+    
+        td a {
+            display: inline-block;
+            margin-top: 5px;
+            width: 100%;
+            text-align: center;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        h1 {
+            font-size: 20px;
+        }
+    
+        table {
+            font-size: 12px;
+        }
+    
+        th, td {
+            padding: 6px;
+        }
+    
+        td {
+            font-size: 12px;
+        }
+    
+        td a {
+            font-size: 14px;
+        }
+    }
+    
+</style>
 <h1>Ordens de Serviço</h1>
 <table>
     <tr>
@@ -24,3 +129,5 @@
     </tr>
     {% endfor %}
 </table>
+
+{% endblock %}

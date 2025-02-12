@@ -1,0 +1,95 @@
+/* Login Page - Theme: Yellow and Black */
+body {
+    background-color: #1A1A1A; /* Preto escuro para o fundo */
+    color: #fff; /* Texto branco */
+    font-family: Arial, sans-serif;
+}
+
+.login-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #333;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.login-title {
+    text-align: center;
+    color: #FFD700; /* Amarelo */
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+.signup-message {
+    text-align: center;
+    color: #ddd;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-fields {
+    margin-bottom: 20px;
+}
+
+.form-actions {
+    text-align: center;
+}
+
+.btn {
+    padding: 12px;
+    font-size: 1.1em;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-login {
+    background-color: #FFD700; /* Amarelo */
+    color: #333;
+    font-weight: bold;
+}
+
+.btn-login:hover {
+    background-color: #e5c300;
+}
+
+.btn-passkey {
+    background-color: #1D1D1D;
+    color: #FFD700;
+    border: 2px solid #FFD700;
+}
+
+.btn-passkey:hover {
+    background-color: #333;
+}
+
+.btn-code {
+    background-color: #333;
+    color: #FFD700;
+    border: 2px solid #FFD700;
+}
+
+.btn-code:hover {
+    background-color: #1D1D1D;
+}
+
+.separator {
+    margin: 20px 0;
+    border: 1px solid #666;
+}
+
+.auth-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
